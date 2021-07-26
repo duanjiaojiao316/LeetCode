@@ -8,5 +8,5 @@ public class ListNode {
         this.val = value;
     }
 
-
+    public ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
