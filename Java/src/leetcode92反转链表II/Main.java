@@ -12,7 +12,7 @@ public class Main {
         ListNode a1 = new ListNode(1,a2);
 
         ListNode res = solution.reverse(a1);
-        System.out.println("123");
+        System.out.println(res);
 
     }
 }

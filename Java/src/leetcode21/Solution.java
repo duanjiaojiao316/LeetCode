@@ -1,8 +1,6 @@
 package leetcode21;
 
 import share.ListNode;
-
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
@@ -60,7 +58,7 @@ public class Solution {
 //                    }
 //                }
 //        );
-        PriorityQueue<ListNode> priorityQueue = new PriorityQueue<>((o1, o2) -> o1.val-o2.val);
+        PriorityQueue<ListNode> priorityQueue = new PriorityQueue<>((o1, o2) -> o1.val - o2.val);
 
         //将K个链表加入到优先队列中
         for (ListNode list : lists) {
@@ -93,7 +91,7 @@ public class Solution {
         if (lists == null || lists.length == 0){
             return null;
         }
-        return merge(lists,0,lists.length - 1);
+        return merge(lists, 0, lists.length - 1);
     }
 
     private ListNode merge(ListNode[] lists, int left, int right) {
