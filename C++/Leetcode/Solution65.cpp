@@ -57,10 +57,70 @@ public:
         return true;
     }
 };
+// 正则表达式实现
+
+#include <regex>
+class Solution1 {
+public:
+    bool isNumber(string s) {
+        regex r {"^[+-]?((\\d+\\.?)|(\\d*\\.\\d+))([eE][+-]?\\d+)?$"};
+        return regex_match(s,r);
+    }
+};
+
+// 有限状态机 实现
+#include <vector>
+#include <unordered_map>
+class Solution2 {
+public:
+    bool isNumber(string s) {
+        vector<unordered_map<char, int>> states = {
+            {{'+', 1}, {'d', 2}, {'.',4}}, // 0状态转变
+            {{'d', 2}, {'.', 4}}, // 1状态
+            {{'d', 2}, {'.', 3}, {'e', 6}},  // 2状态
+            {{'d', 5}, {'e', 6}}, // 3
+            {{'d', 5}}, // 4
+            {{'e', 6},{'d', 5}}, // 5
+            {{'+', 7}, {'d',8}},// 6
+            {{'d', 8}}, // 7
+            {{'d',8}} // 8
+        };
+        int n = s.size();
+        int cur_state = 0;
+        for (int i = 0; i < n; i++) {
+            char t;
+            if (s[i] >= '0' && s[i] <='9') {
+                t = 'd';
+            } else if (s[i] == '+' || s[i] == '-') {
+                t = '+';
+            } else if (s[i] == 'E' || s [i] == 'e') {
+                t = 'e';
+            } else if (s[i] == '.') {
+                t = s[i];
+            } else {
+                t = s[i];
+            }
+
+            if (states[cur_state].count(t) == 0) {
+                return false;
+            } else {
+                cur_state = states[cur_state][t];
+            }
+
+        }
+        if (cur_state == 2 || cur_state == 3 || cur_state == 5 || cur_state == 8) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+};
 
 int main() {
-    Solution s = Solution();
-    s.isNumber("64.e3");
+    Solution2 s = Solution2();
+    cout<< s.isNumber("53K");
     vector<string> is = {"2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "+6e-1","53.5e93","64.e3"};
 
     for (int i = 0; i < is.size(); i++) {
@@ -68,7 +128,7 @@ int main() {
     }
     cout <<"-----------------------------------"<<endl;
 
-    vector<string> isnot = {"bac", "1a", "1e","e3","99e2.5", "--6", "-+3","95a54e53","ee","..",".1.","4R", "4e+", "+E3", "+", "+-", "+2+3e5","6ee69","6e3e4","+.E3"};
+    vector<string> isnot = {"bac", "1a", "1e","e3","99e2.5", "--6", "-+3","95a54e53","ee","..",".1.","4R", "4e+", "+E3", "+", "+-", "+2+3e5","6ee69","6e3e4","+.E3","e"};
 
     for (int i = 0; i < isnot.size(); i++) {
         cout<<s.isNumber(isnot[i])<<" " << isnot[i] <<endl;

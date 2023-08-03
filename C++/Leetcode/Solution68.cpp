@@ -34,7 +34,7 @@ public:
             }
             if (right == n) {
                 int spaceNums = maxWidth - row_words_length;
-                res.push_back(joinWordsTail(words, left, right - 1, spaceNums - (right - left) + 1));
+                res.push_back(joinWordsTail(words, left, right - 1, spaceNums - (right - left)  + 1));
                 break;
             }
         }
