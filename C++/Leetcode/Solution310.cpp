@@ -5,6 +5,9 @@ using namespace std;
 class Solution {
 public:
     vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        if (n == 0) {
+            return vector<int>{};
+        }
         // 通过edges构建图，并找到度为1的节点
         // 度为1的节点为叶子节点
         vector<int> res;
