@@ -24,5 +24,4 @@ public:
             track.pop_back();
         }
     }
-
 };
