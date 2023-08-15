@@ -9,6 +9,9 @@ struct ListNode{
 class Solution {
 public:
     ListNode* doubleIt(ListNode* head) {
+        if (!head) {
+            return nullptr;
+        }
         ListNode* reverse = reverseList(head);
         ListNode* cur = reverse;
         int mul = 0;
@@ -27,7 +30,6 @@ public:
         } else {
             res = reverseList(reverse);
         }
-
         return res;
 
     }
