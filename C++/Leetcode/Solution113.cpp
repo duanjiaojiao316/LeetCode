@@ -7,8 +7,8 @@ public:
     vector<vector<int>> res;
     vector<int> path;
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        
-
+        dfs(root, targetSum);
+        return res;
 
     }
 
