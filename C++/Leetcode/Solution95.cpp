@@ -6,7 +6,7 @@ class Solution {
 public:
     vector<TreeNode*> generateTrees(int n) {
         if (n == 0) {
-            return vector<TreeNode*>(0);
+            return {};
         }
         return build(1,n);
     }
@@ -14,7 +14,7 @@ public:
     vector<TreeNode*> build (int lo, int hi) {
         vector<TreeNode*> res;
         if (lo > hi) {
-            return res;
+            return {nullptr};
         }
 
         for (int i = lo; i <= hi; i++) {
