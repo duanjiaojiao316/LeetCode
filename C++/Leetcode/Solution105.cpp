@@ -18,13 +18,14 @@ public:
             return nullptr;
         }
         // 根节点的值
-        int rootVal = preorder[preStart];
-        TreeNode* root = new TreeNode(rootVal);
+        int rootVal = preorder[preStart];  
         // 根节点在中序遍历中的索引
         int index = valToIndex[rootVal];
         // 左子树的大小
         int leftSize = index - inStart;
-        root -> left = build(preorder, preStart + 1, preStart + leftSize, inorder, 0, index - 1);
+
+        TreeNode* root = new TreeNode(rootVal);
+        root -> left = build(preorder, preStart + 1, preStart + leftSize, inorder, inStart, index - 1);
         root -> right = build(preorder, preStart + 1 + leftSize, preEnd, inorder, index + 1, inEnd);
         return root;
     }

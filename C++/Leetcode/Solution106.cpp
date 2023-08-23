@@ -25,8 +25,8 @@ public:
 
         TreeNode* root = new TreeNode(rootVal);
 
-        root->left = build();
-        root->right = build();
-
+        root->left = build(inorder, inStart, index - 1, postorder, postStart, postEnd - rightSize - 1);
+        root->right = build(inorder, index + 1, inEnd, postorder, postEnd - rightSize, postEnd - 1);
+        return root;
     }
 };
