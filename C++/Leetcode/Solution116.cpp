@@ -7,6 +7,9 @@ public:
     
     queue<Node*> q;
     Node* connect(Node* root) {
+        if (!root) {
+            return nullptr;
+        }
         q.push(root);
 
         while(!q.empty()) {
