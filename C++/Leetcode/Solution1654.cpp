@@ -4,21 +4,52 @@
 #include <algorithm>
 using namespace std;
 
+// bfs
+#include <unordered_set>
 class Solution {
 public:
-    vector<int> dp; //dp[i]记录跳到该位置的最短条数
     int minimumJumps(vector<int>& forbidden, int a, int b, int x) {
-        // 本体难点在 怎么定义跳蚤所能跳的索引上限
-        // 当 a == b，上限 x
-        // 当 a > b, 上限 x + b
-        // 当 a < b, 上限 max(max(forbidden) + a + b, x) + b
-        int max_f = *max_element(forbidden.begin(), forbidden.end()); // 记录forbidden的最大数值
-        dp.resize(max(max_f + a + b, x) + b); // x + b是条找所能跳到的最远的位置，因为它不能连续后跳两次
-        set<int> forbidden_set(forbidden.begin(), forbidden.end());
+        queue<tuple<int,int,int>> q;
+        unordered_set<int> visited; //标记可以达到的点
+        q.emplace(0, 1, 0); // 到达位置0需要步数为0，方向1前经
+        visited.emplace(0); // 添加0为可到达的点
+        // 定义左右边界
+        int lower = 0;
+        int upper = max(*max_element(forbidden.begin(), forbidden.end()) + a, x) +b;
+        // 克隆禁止区域的点到set，便于查找
+        unordered_set<int> forbidden_set(forbidden.begin(), forbidden.end());
 
-        queue<tuple<int, int, int>> q;
-
-
-
+        while (!q.empty()) {
+            tuple<int, int, int> tu = q.front();
+            int position = get<0>(tu), direction = get<1>(tu), step = get<2>(tu);
+            q.pop();
+            if (position == x) {
+                return step;
+            }
+            // 两个方向
+            // 方向前进 或者 右移
+            int nextPosition = position + a;
+            int nextDirection = 1;
+            if (lower <= nextPosition && nextPosition <= upper) {
+                if (!visited.count(nextPosition * nextDirection) && !forbidden_set.count(nextPosition)) {
+                    // 标记可以到达的点
+                    visited.emplace(nextPosition * nextDirection);
+                    // 队列中加入前进后到达的点
+                    q.emplace(nextPosition, nextDirection, step + 1);
+                }
+            }
+            // 上一次方向前进或者右移 这次左移
+            if (direction == 1) {
+                nextPosition = position - b;
+                nextDirection = -1;
+                if (lower <= nextPosition && nextPosition <= upper) {
+                    if (!visited.count(nextPosition * nextDirection) && !forbidden_set.count(nextPosition)){
+                        visited.emplace(nextPosition * nextDirection);
+                        q.emplace(nextPosition, nextDirection, step + 1);
+                    }
+                }
+            }
+        }
+        return -1;
     }
 };
